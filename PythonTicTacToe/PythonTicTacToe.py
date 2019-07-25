@@ -74,6 +74,9 @@ def PlayerMove():
 
     playerinput = int(input())
 
+    if playerinput < 1 or playerinput > 9:
+        print("Invalid Input")
+        return
 
     if (BoardFull(board) == False and FreeSpace(board, playerinput) == True):
         if turnkeeper == True:
@@ -86,9 +89,19 @@ def PlayerMove():
         return
     else:
         print("Invalid Input")
+        return
+
     turnkeeper = not turnkeeper
     return
 
+
+def NewGame():
+    playerinput = input("Would you like to play again? (y/n)").upper()
+    if playerinput == "Y":
+        return True
+    if playerinput == "N":
+        print("Have a nice day!")
+        return False
 
 DrawTheBoard(board)
 
@@ -114,3 +127,37 @@ for i in range(0,11):
         break
     i+=1
 
+
+negamebool = NewGame()
+
+while negamebool == True:
+    if negamebool == True:
+        print('\n'*100)
+    #our board
+        board = ['A','Z','Z','Z','Z','Z','Z','Z','Z','Z']
+    #our turn keeper
+        turnkeeper = True
+        DrawTheBoard(board)
+
+        Playersymbols = PlayerAssignment()
+
+        turnkeeper = whoGoesFirst() 
+    
+    for i in range(0,11):
+        DrawTheBoard(board)
+        PlayerMove()
+        
+        if turnkeeper == True:
+            if whoHasWon(board, "O"):
+                input()
+                break
+        else:
+            if whoHasWon(board, "X"):
+             input()
+             break
+        if BoardFull(board) == True:
+          print("The Game is a Tie")
+          input()
+          break
+        i+=1
+    negamebool = NewGame()
